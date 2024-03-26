@@ -37,9 +37,9 @@ jobs:
         run: pip freeze
       - name: Run linter
         run: make lint
-  lint-retry:
+  lint-retry-fail:
     runs-on: ${{ inputs.os }}
-    if: ${{ always() && needs.lint.result != 'success' }}
+    if: ${{ always() && needs.lint.outputs.status != 'success' }}
     needs: lint
     steps:
       - name: Checkout code
@@ -63,3 +63,10 @@ jobs:
         run: pip freeze
       - name: Run linter
         run: make lint
+#  lint-retry-success:
+#    runs-on: ${{ inputs.os }}
+#    if: ${{ always() && needs.lint.result == 'success' }}
+#    needs: lint
+#    steps:
+#      - name: Exit with success
+#        run: true
