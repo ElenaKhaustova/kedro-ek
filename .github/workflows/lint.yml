@@ -35,11 +35,10 @@ jobs:
       - name: pip freeze
         run: pip freeze
       - name: Run linter
-        id: run_id1
         run: make lint
   lint-retry:
     runs-on: ${{ inputs.os }}
-    if: ${{ needs.lint.result != 'success' }}
+    if: ${{ always() && needs.lint.result != 'success' }}
     needs: lint
     steps:
       - name: Checkout code
