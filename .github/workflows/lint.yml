@@ -39,7 +39,7 @@ jobs:
         run: make lint
   lint-retry:
     runs-on: ${{ inputs.os }}
-    if: ${{ !success() }}
+    if: ${{ needs.lint.result != 'success' }}
     needs: lint
     steps:
       - name: Checkout code
