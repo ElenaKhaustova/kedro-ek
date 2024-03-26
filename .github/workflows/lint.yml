@@ -35,4 +35,10 @@ jobs:
       - name: pip freeze
         run: pip freeze
       - name: Run linter
+        id: run_id1
+        continue-on-error: true
+        run: make lint
+      - name: Run linter retry
+        id: run_id2
+        if: steps.run_id1.outcome == 'failure'
         run: make lint
