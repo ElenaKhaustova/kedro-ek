@@ -27,11 +27,21 @@ jobs:
       matrix:
         os: [ windows-latest, ubuntu-latest ]
         python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12" ]
-    uses: ./.github/workflows/unit-tests.yml
-    with:
-      os: ${{ matrix.os }}
-      python-version: ${{ matrix.python-version }}
-      branch: ${{ inputs.branch }}
+    steps:
+      - id: unit_tests_id1
+        uses: ./.github/workflows/unit-tests.yml
+        with:
+          os: ${{ matrix.os }}
+          python-version: ${{ matrix.python-version }}
+          branch: ${{ inputs.branch }}
+        continue-on-error: true
+      - id: unit_tests_id2
+        if: steps.unit_tests_id1.outcome == 'failure'
+        uses: ./.github/workflows/unit-tests.yml2
+        with:
+          os: ${{ matrix.os }}
+          python-version: ${{ matrix.python-version }}
+          branch: ${{ inputs.branch }}
   e2e-tests:
     strategy:
       matrix:

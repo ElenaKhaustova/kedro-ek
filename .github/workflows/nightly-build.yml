@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     # Run every day at midnight (UTC time)
-    - cron: '0 0 * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   kedro-main-test:
