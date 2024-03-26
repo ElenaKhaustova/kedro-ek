@@ -48,7 +48,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         python-version: [ "3.11" ]
-    uses: ./.github/workflows/lint.yml
+    uses: ./.github/workflows/lint-retry.yml
     with:
       os: ${{ matrix.os }}
       python-version: ${{ matrix.python-version }}

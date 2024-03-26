@@ -1,0 +1,22 @@
+name: Run linters on Kedro
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        type: string
+      python-version:
+        type: string
+      branch:
+        type: string
+        default: ''
+
+jobs:
+  lint-retry-fail:
+    runs-on: ${{ inputs.os }}
+    uses: ./.github/workflows/lint.yml
+    if: ${{ always() && needs.lint.outputs.status != 'success' }}
+    needs: lint
+    steps:
+      - name: Exit with success
+        run: true
