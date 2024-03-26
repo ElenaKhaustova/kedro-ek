@@ -40,8 +40,8 @@ jobs:
         run: make lint
   lint-retry:
     runs-on: ${{ inputs.os }}
-    if: failure()
-    needs: [lint]
+    if: ${{ !success() }}
+    needs: lint
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
