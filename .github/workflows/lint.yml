@@ -38,31 +38,31 @@ jobs:
       - name: Run linter
         id: run_id1
         run: make lint
-    lint-retry:
-      runs-on: ${{ inputs.os }}
-      if: failure()
-      needs: [lint]
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
-          with:
-            ref: ${{ inputs.branch }}
-        - name: Set up Python ${{ inputs.python-version }}
-          uses: actions/setup-python@v5
-          with:
-            python-version: ${{ inputs.python-version }}
-        - name: Cache python packages
-          uses: actions/cache@v4
-          with:
-            path: ~/.cache/pip
-            key: ${{inputs.os}}-python-${{inputs.python-version}}
-        - name: Install dependencies
-          run: |
-            make install-test-requirements
-            make install-pre-commit
-        - name: pip freeze
-          run: pip freeze
-        - name: Run linter
-          id: run_id1
-          continue-on-error: true
-          run: make lint
+  lint-retry:
+    runs-on: ${{ inputs.os }}
+    if: failure()
+    needs: [lint]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - name: Set up Python ${{ inputs.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+      - name: Cache python packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{inputs.os}}-python-${{inputs.python-version}}
+      - name: Install dependencies
+        run: |
+          make install-test-requirements
+          make install-pre-commit
+      - name: pip freeze
+        run: pip freeze
+      - name: Run linter
+        id: run_id1
+        continue-on-error: true
+        run: make lint
