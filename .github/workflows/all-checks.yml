@@ -37,7 +37,7 @@ jobs:
         continue-on-error: true
       - id: unit_tests_id2
         if: steps.unit_tests_id1.outcome == 'failure'
-        uses: ./.github/workflows/unit-tests.yml2
+        uses: ./.github/workflows/unit-tests.yml
         with:
           python-version: ${{ matrix.python-version }}
           branch: ${{ inputs.branch }}
