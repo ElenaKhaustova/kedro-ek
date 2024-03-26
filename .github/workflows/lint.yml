@@ -14,7 +14,6 @@ on:
 jobs:
   lint:
     runs-on: ${{ inputs.os }}
-    continue-on-error: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
