@@ -9,6 +9,7 @@ on:
 jobs:
   kedro-main-test:
     uses: ./.github/workflows/all-checks.yml
+    continue-on-error: true
     with:
       branch: main
 
@@ -22,10 +23,16 @@ jobs:
       issues: write
     name: Notify failed build for kedro-main
     needs: kedro-main-test
-    if: ${{ !success() }}
+    if: ${{ always() && needs.kedro-main-test.outputs.status != 'success' }}
     runs-on: ubuntu-latest
     steps:
+      - uses: ./.github/workflows/all-checks.yml
+        id: retryStep
+        continue-on-error: true
+        with:
+          branch: main
       - uses: jayqi/failed-build-issue-action@v1
+        if: steps.retryStep.outcome == 'failure'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           label-name: "main nightly build"

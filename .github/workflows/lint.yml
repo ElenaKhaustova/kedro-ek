@@ -14,6 +14,7 @@ on:
 jobs:
   lint:
     runs-on: ${{ inputs.os }}
+#    continue-on-error: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -35,10 +36,18 @@ jobs:
       - name: pip freeze
         run: pip freeze
       - name: Run linter
-        id: run_id1
-        continue-on-error: true
         run: make lint
-      - name: Run linter retry
-        id: run_id2
-        if: steps.run_id1.outcome == 'failure'
-        run: make lint
+#  lint-retry-fail:
+#    runs-on: ${{ inputs.os }}
+#    if: ${{ always() && needs.lint.outputs.status != 'success' }}
+#    needs: lint
+#    steps:
+#      - name: Exit with success
+#        run: true
+#  lint-retry-success:
+#    runs-on: ${{ inputs.os }}
+#    if: ${{ always() && needs.lint.result == 'success' }}
+#    needs: lint
+#    steps:
+#      - name: Exit with success
+#        run: true
