@@ -24,4 +24,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           timeout: 3600
           interval: 30
-          ignored: 'CircleCI Pipeline, runner / vale, lint'
+          ignored: 'CircleCI Pipeline, runner / vale, lint (ubuntu-latest, 3.11) / lint'
