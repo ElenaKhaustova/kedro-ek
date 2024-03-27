@@ -9,7 +9,6 @@ on:
 jobs:
   kedro-main-test:
     uses: ./.github/workflows/all-checks.yml
-    continue-on-error: true
     with:
       branch: main
 
