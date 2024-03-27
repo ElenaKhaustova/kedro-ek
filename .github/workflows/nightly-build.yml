@@ -17,21 +17,21 @@ jobs:
     with:
       branch: develop
 
+  kedro-main-test-retry:
+    uses: ./.github/workflows/all-checks.yml
+    if: ${{ always() && kedro-main-test.outputs.status != 'success' }}
+    with:
+      branch: main
+
   notify-main:
     permissions:
       issues: write
     name: Notify failed build for kedro-main
-    needs: kedro-main-test
-    if: ${{ always() && needs.kedro-main-test.outputs.status != 'success' }}
+    needs: kedro-main-test-retry
+    if: ${{ always() && needs.kedro-main-test-retry.outputs.status != 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/workflows/all-checks.yml
-        id: retryStep
-        continue-on-error: true
-        with:
-          branch: main
       - uses: jayqi/failed-build-issue-action@v1
-        if: steps.retryStep.outcome == 'failure'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           label-name: "main nightly build"
